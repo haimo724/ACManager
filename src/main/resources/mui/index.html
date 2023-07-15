@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>后台管理中心</title>
+    <link rel="stylesheet" href="/mui/css/pintuer.css">
+    <link rel="stylesheet" href="/mui/css/admin.css">
+    <script src="/mui/js/jquery.js"></script>
+    <script type="text/javascript" src="first.js"></script>
+</head>
+<body style="background-color:#f2f9fd;">
+<div class="header bg-main">
+    <div class="logo margin-big-left fadein-top">
+        <h1><img src="/images/favicon.ico" class="radius-circle rotate-hover" height="50 " alt="" /></h1>
+    </div>
+    <div class="head-l"><a class="button button-little bg-red" onclick="logout() "><span class="icon-power-off"></span> 退出登录</a> </div>
+</div>
+<div class="leftnav">
+    <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+    <h2><span class="icon-user"></span>系统管理</h2>
+    <ul>
+        <li><a href="/userList.html" target="right"><span class="icon-caret-right"></span>用户管理</a></li>
+        <li><a href="/mnewsList.html" target="right"><span class="icon-caret-right"></span>新闻管理</a></li>
+        <li><a href="/msgCheck.html" target="right"><span class="icon-caret-right"></span>留言审核</a></li>
+        <li><a href="/actList.html" target="right"><span class="icon-caret-right"></span>活动管理</a></li>
+        <li><a href="/teamsCheck.html" target="right"><span class="icon-caret-right"></span>队伍申请审核</a></li>
+        <li><a href="/blogCheck.html" target="right"><span class="icon-caret-right"></span>博客申请审核</a></li>
+        <li><a href="/solutionCheck.html" target="right"><span class="icon-caret-right"></span>题解申请审核</a></li>
+        <li><a href="/trainCheck.html" target="right"><span class="icon-caret-right"></span>训练时长审核</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(".leftnav h2").click(function(){
+            $(this).next().slideToggle(200);
+            $(this).toggleClass("on");
+        })
+        $(".leftnav ul li a").click(function(){
+            $("#a_leader_txt").text($(this).text());
+            $(".leftnav ul li a").removeClass("on");
+            $(this).addClass("on");
+        })
+    });
+    function logout(){
+        window.location.href='mlogin.html'
+    }
+</script>
+<ul class="bread">
+    <li><a href="/welcome.html" target="right" class="icon-home"> 首页</a></li>
+    <li><a href="#" id="a_leader_txt">网站信息</a></li>
+</ul>
+<div class="admin">
+    <iframe scrolling="auto" frameborder="0" src="/welcome.html" name="right" width="100%" height="100%"></iframe>
+</div>
+</body>
+</html>

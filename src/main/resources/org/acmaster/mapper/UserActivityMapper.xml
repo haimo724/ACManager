@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.UserActivityMapper">
+    <select id="queryUserActivityByID" resultType="useractivity">
+        select *
+        from UserActivity
+        where userId=#{userId}
+    </select>
+
+    <select id="queryUserActivityByUserId" resultType="userActivity">
+        select *
+        from UserActivity
+        where userId=#{userId}
+    </select>
+
+    <insert id="addUserApply">
+        insert into UserActivity(UAID,UserID,UserName,Activityid,UATime)
+        values (#{UAID},#{userId},#{userName},#{activityid},#{UATime})
+    </insert>
+</mapper>
+

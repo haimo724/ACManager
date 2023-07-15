@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.NewsMapper">
+    <select id="queryNewsByID" resultType="news"> select * from News where newsId = #{newsId} </select>
+    <insert id="insertNews" >
+    insert into News(newsTitle,newsContent,newsTime,newsAuthorId,newsCheck)
+     value (#{newsTitle},#{newsContent},#{newsTime},#{newsAuthorId},#{newsCheck})
+     </insert>
+    <delete id="deleteNewsById"> delete from News where newsId = #{newsId} </delete>
+    <update id="updateNewsById" parameterType="news">
+        update News
+        set
+            newsTitle = #{newsTitle},
+            newsContent = #{newsContent},
+            newsTime = #{newsTime},
+            newsAuthorId = #{newsAuthorId},
+            newsCheck = #{newsCheck}
+        where newsId = #{newsId}
+    </update>
+    <select id="queryCount" resultType="long">
+        select count(newsId)
+        from News
+    </select>
+
+    <select id="queryAll" resultType="news">
+        select *
+        from News
+    </select>
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(newsId)
+        from News
+        where newsId like #{searchValue} or
+        newsTitle like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="news">
+        select *
+        from News
+        limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="news">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from News
+        where newsId like #{searchValue} or
+            newsTitle like #{searchValue}
+        limit #{page.limitStart},#{page.size}
+    </select>
+</mapper>

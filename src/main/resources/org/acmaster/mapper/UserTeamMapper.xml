@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.UserTeamMapper">
+
+    <select id="queryUserTeamByUTId" resultType="userTeam">
+        select *
+        from UserTeam
+        where userTeamId=#{userTeamId}
+    </select>
+
+    <select id="queryUserTeamByTeamId" resultType="userTeam">
+        select *
+        from UserTeam
+        where teamId=#{teamId}
+    </select>
+    <insert id="addUserApply">
+        insert into UserTeam(userId,userName,teamId,userTeamTime)
+        values (#{userId},#{userName},#{teamId},#{userTeamTime})
+    </insert>
+
+    <update id="checkUserApply" parameterType="userTeam">
+        update User
+        set userStatus=6
+        where userId=#{userId}
+    </update>
+
+
+
+    <delete id="deleteUserApply" parameterType="userTeam">
+        delete from UserTeam
+        where userTeamId=#{userTeamId}
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        select count(userTeamId)
+        from UserTeam
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(userTeamId)
+        from UserTeam
+        where userName like #{searchValue} or
+        userId like #{searchValue} or
+        teamId like #{searchValue}
+    </select>
+
+    <select id="queryUserTeamByUserId" resultType="userTeam">
+        select *
+        from UserTeam
+        where userId=#{userId}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="userTeam">
+        select *
+        from UserTeam
+        limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="userTeam">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from UserTeam
+        where userId like #{searchValue} or
+        userName like #{searchValue} or
+        teamId like #{searchValue}
+        limit #{page.limitStart},#{page.size}
+    </select>
+
+    <select id="queryTeamListByPage" parameterType="page" resultType="userTeam">
+        select *
+        from UserTeam
+        where userId=#{userId}
+        limit #{limitStart},#{size}
+    </select>
+
+</mapper>

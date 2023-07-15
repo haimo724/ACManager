@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.UserMapper">
+
+    <select id="queryUserByNameAndId" resultType="user">
+        select *
+        from User
+        where userName=#{userName} AND userId=#{userId}
+    </select>
+
+    <select id="queryUserByID" resultType="user">
+        select *
+        from User
+        where userId=#{userId}
+    </select>
+
+    <insert id="save">
+        insert into User(userName,userId,userPassword,userSex,userCollege,userMajor)
+        values (#{userName},#{userId},#{userPassword},#{userSex},#{userCollege},#{userMajor})
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <update id="updateUser" parameterType="user">
+        update User
+        set
+            userPassword=#{userPassword},
+            userCollege=#{userCollege},
+            userMajor=#{userMajor}
+        where userId=#{userId}
+    </update>
+
+    <update id="updateUserStatus" parameterType="user">
+        update User
+        set userStatus=#{userStatus}
+        where userId=#{userId}
+    </update>
+
+    <update id="updateUserStatus1" parameterType="user">
+        update User
+        set userStatus='6'
+        where userId=#{userId}
+    </update>
+
+    <!-- 删除一条用户数据 -->
+    <delete id="deleteByUserId" parameterType="user">
+        delete from User
+        where userId=#{userId}
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        select count(userId)
+        from User
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(userSysId)
+        from User
+        where userName like #{searchValue} or
+              userId like #{searchValue} or
+              userSysId like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="user">
+        select *
+        from User
+                 limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="user">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from User
+        where userName like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+</mapper>

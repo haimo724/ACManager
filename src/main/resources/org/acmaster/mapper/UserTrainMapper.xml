@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.UserTrainMapper">
+
+    <insert id="save">
+        insert into UserTrain(userId,userName,trainDate,trainTime)
+        values (#{userId},#{userName},#{trainDate},#{trainTime})
+    </insert>
+
+    <select id="queryUserTrainByID" resultType="userTrain">
+        select *
+        from UserTrain
+        where userTrainId=#{userTrainId}
+    </select>
+
+    <update id="updateById" parameterType="userTrain">
+        update UserTrain
+        set userTrainStatus=#{userTrainStatus}
+        where userTrainId=#{userTrainId}
+    </update>
+
+    <select id="queryUserNameById" resultType="String">
+        select userName
+        from User
+        where userId=#{userId}
+    </select>
+
+    <select id="queryUserTrainTime" resultType="double">
+        select UserTrainTime
+        from UserTrain
+        where userId=#{userId}
+    </select>
+
+    <update id="updateUserTrainStatus">
+        update UserTrain
+        set userTrainStatus='1'
+        where userId=#{userId}
+    </update>
+
+    <!-- 删除一条用户训练数据 -->
+    <delete id="deleteByUserTrainId" parameterType="userTrain">
+        delete from UserTrain
+        where userTrainId=#{userTrainId}
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        select count(userId)
+        from UserTrain
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(userSysId)
+        from UserTrain
+        where userName like #{searchValue} or
+        userId like #{searchValue} or
+        trainDate like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="userTrain">
+        select *
+        from UserTrain
+        limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="userTrain">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from UserTrain
+        where userName like #{searchValue} or
+        userId like #{searchValue} or
+        trainDate like #{searchValue}
+        limit #{page.limitStart},#{page.size}
+    </select>
+</mapper>

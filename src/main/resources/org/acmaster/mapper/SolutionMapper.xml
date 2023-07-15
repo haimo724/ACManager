@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.SolutionMapper">
+
+    <select id="querySolutionByID" resultType="solution">
+        select *
+        from Solution
+        where solutionId=#{solutionId}
+    </select>
+    <select id="querySolutionBySolutionAuthorId" resultType="solution">
+        select *
+        from Solution
+        where solutionAuthorId=#{solutionAuthorId}
+    </select>
+
+
+    <!-- 获取所有的通过审核的且未删除的题解。 -->
+    <select id="getAllCheckedSolutions" resultType="solution">
+        SELECT *
+        FROM Solution
+        WHERE ischecked = '1'
+          AND isdeleted = '0'
+    </select>
+
+    <!-- 更新特定题解的点赞数。 -->
+    <update id="updateGoodCount" parameterType="solution">
+        UPDATE Solution
+        SET goodCount = #{goodCount}
+        WHERE solutionId = #{solutionId}
+    </update>
+
+    <!-- 获取个人发布的所有的未删除题解。 -->
+    <select id="querySolutionByUserId" resultType="Solution">
+        SELECT *
+        FROM Solution
+        WHERE solutionAuthorId = #{userId}
+          AND isDeleted = '0';
+    </select>
+
+    <!-- 新增一条审核中的题解 -->
+    <insert id="applySolution" parameterType="Solution">
+        INSERT INTO Solution(solutionAuthorId, SolutionTitle, SolutionContent, SolutionTime, solutionFormat)
+        VALUES (#{solutionAuthorId}, #{solutionTitle},#{solutionContent},#{solutionTime},#{solutionFormat})
+    </insert>
+
+    <!-- 根据分页查询所有未删除的题解 -->
+    <select id="queryAllSolutionsByPage" parameterType="Page" resultType="Solution">
+        SELECT *
+        FROM Solution
+        WHERE isDeleted = '0'
+            LIMIT #{limitStart}, #{size};
+    </select>
+
+    <!-- 删除特定编号的题解 -->
+    <delete id="deleteSolution">
+        update Solution set isDeleted = #{1} WHERE solutionId = #{solutionId}
+    </delete>
+
+    <!-- 更新特定编号的审核信息 -->
+    <update id="checkSolution" parameterType="solution">
+        UPDATE Solution
+        SET isChecked = #{isChecked}
+        WHERE solutionId = #{solutionId}
+    </update>
+    <select id="queryCount" resultType="long">
+        select count(solutionId)
+        from Solution
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(solutionId)
+        from Solution
+        where solutionTitle like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="solution">
+        select *
+        from Solution
+        WHERE isDeleted = '0'
+                 limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="solution">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from Solution
+        where solutionTitle like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+</mapper>

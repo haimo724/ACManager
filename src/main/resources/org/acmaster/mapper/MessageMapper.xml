@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.MessageMapper">
+
+    <insert id="save" >
+        insert into Message(messageAuthorId, messageTitle, messageContent, messageTime,msgCheck)
+        values (#{messageAuthorId},#{messageTitle},#{messageContent},#{messageTime},#{msgCheck})
+    </insert>
+
+    <update id="updateById" parameterType="message">
+        update Message
+        set msgCheck=#{msgCheck}
+        where messageId=#{messageId}
+    </update>
+    <select id="queryMessageByMessageID" resultType="Message">
+        select *
+        from Message
+        where messageid = #{messageID}
+    </select>
+
+    <select id="queryUserSysIDById" resultType="Integer">
+        select UserSysID
+        from User
+        where UserId = #{userId}
+    </select>
+
+    <delete id="deleteMessageById">
+        delete
+        from Message
+        where messageid = #{messageId}
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        select count(messageId)
+        from Message
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(messageId)
+        from Message
+        where messageTitle like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="message">
+        select *
+        from Message
+                 limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="message">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from Message
+        where messageTitle like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+</mapper>

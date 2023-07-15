@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ACM基地管理系统</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon1.ico">
+</head>
+<body>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+<script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="/editor/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="/editor/xheditor-1.1.14-zh-cn.min.js" type="text/javascript"></script>
+<div class="include1"></div>
+<div class="zxc">
+    <div class="warp">
+        <br>
+        <div class="listpage clearfix">
+            <div class="lmenu">
+                <h2>新闻列表</h2>
+                <ul class="menus">
+                    <li><a></a></li>
+                </ul>
+            </div>
+<!--            <div class="rcon">-->
+<!--                <ol class="breadcrumb">-->
+<!--                    <li><a href="/main.html">首页</a></li>-->
+<!--                    <li class="active"> - 新闻列表- 新闻详情</li>-->
+<!--                </ol>-->
+<!--                <div class="newscon">-->
+<!--                    <div class="news-tit mt20">新闻名字</div>-->
+<!--                    <div class="news-remark">提出者：<span class="mr40">-->
+<!--                            发布时间：<span class="mr40"></span>-->
+<!--                        </span></div>-->
+<!--                    <div align="center">-->
+<!--                        <img alt="" src="" style="width: 60%">-->
+<!--                    </div>-->
+<!--                    <div class="news-info" >-->
+<!--                        <br>-->
+<!--                    </div>-->
+<!--&lt;!&ndash;                    <a href="#" onclick="applyTeam('${team.id}')">申请加入分队</a>&ndash;&gt;-->
+<!--                </div>-->
+            
+
+            <!--            <c:if test="${team==null }"> <div class="rcon"> <div class="newscon">-->
+            <!--                <p>请点击左侧对应的社团查看社团介绍！</p></div></div>-->
+            <!--            </c:if>-->
+        </div>
+    </div>
+</div>
+
+<div class="include2"></div>
+<script type="text/javascript" src="/jquery.min.js"></script>
+<script type="text/javascript">
+    $(".include1").load('top.html');
+    $(".include2").load('footer.html');
+    $(document).ready(function (){
+        getNews3()
+    })
+    function getNews3(){
+        $.get('/news/allNews',
+            function (data,status){
+                if(status==='success'){
+                    var qw = $('.menus')
+                    var Count = data.data.length
+                    for(let i=0;i<Count;i++){
+                        var news = data.data[i]
+                        qw.append(
+                            '<li><a class="menulink" onclick="toNews3('+news.newsId+')">' + news.newsTitle +'</a></li>'
+                        )
+                        if(news.newsId==localStorage['newsId']){
+                            $(".listpage").append('<div class="rcon">\n' +
+                                '                <ol class="breadcrumb">\n' +
+                                '                    <li><a href="/main.html">首页</a></li>\n' +
+                                '                    <li class="active"> - 新闻列表- 新闻详情</li>\n' +
+                                '                </ol>\n' +
+                                '                <div class="newscon">\n' +
+                                '                    <div class="news-tit mt20">'+news.newsTitle+'</div>\n' +
+                                '                    <div class="news-remark">提出人: '+news.newsAuthorId+'<span class="mr40">\n' +
+                                '                            成立时间：'+news.newsTime+'<span class="mr40"></span>\n' +
+                                '                        </span></div>\n' +
+                                '                    <div align="center">\n' +
+                                '                        <img alt="" src="'+news.newsPhoto+'" style="width: 60%">\n' +
+                                '                    </div>\n' +
+                                '                    <div class="news-info" >\n' +
+                                '                        <br>\n' +news.newsContent+
+                                '                    </div>\n' +
+                                '                </div>')
+                        }
+                    }
+                }else {
+                    alert('网络异常！')
+                }
+            })
+    }
+    function toNews3(id){
+        localStorage.removeItem('newsId')
+        localStorage.setItem('newsId',id)
+        window.location.href='/newsDetail.html'
+    }
+</script>
+</body>
+</html>

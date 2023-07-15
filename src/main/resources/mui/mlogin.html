@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>登录</title>
+    <link rel="stylesheet" href="/mui/css/pintuer.css">
+    <link rel="stylesheet" href="/mui/css/admin.css">
+    <script src="/mui/js/jquery.js"></script>
+    <script src="/mui/js/pintuer.js"></script>
+</head>
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">
+            </div>
+            <form action="#" method="post">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top"><h1>后台管理中心</h1></div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" name="userName" id="userName" placeholder="用户姓名" data-validate="required:请填写账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" name="userId" id="userId" placeholder="用户学号/工号" data-validate="required:请填写账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="input input-big" name="userPassword" id="userPassword" placeholder="登录密码" data-validate="required:请填写密码" />
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:30px;"><input type="button" class="button button-block bg-main text-big input-big" value="登录" onclick="mlogin()"></div>
+                    <div style="padding-left: 130px;padding-right: 130px;padding-bottom: 12px"><input type="button" class="return" value="返回首页" onclick="window.location.href='/login.html'"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    function mlogin(){
+        localStorage.clear()
+        var userName = $("#userName").val()
+        var userId = $("#userId").val()
+        var userPassword = $("#userPassword").val()
+        $.post('/user/mlogin',
+            {
+                'userName':userName,
+                'userId':userId,
+                'userPassword':userPassword
+            },
+            function (data,status){
+            if(data.code===200){
+                alert(data.message)
+                localStorage.setItem('userSysId',data.data.userSysId)
+                localStorage.setItem('userName',data.data.userName)
+                localStorage.setItem('userStatus',data.data.userStatus)
+                localStorage.setItem('userPassword',data.data.userPassword)
+                localStorage.setItem('userCollege',data.data.userCollege)
+                localStorage.setItem('userMajor',data.data.userMajor)
+                localStorage.setItem('userId',data.data.userId)
+                localStorage.setItem('selectPageUsers','1')
+                localStorage.setItem('selectPagemNews','1')
+                localStorage.setItem('selectPagemMessage','1')
+                localStorage.setItem('selectPagemTeam','1')
+                localStorage.setItem('selectPageBlog','1')
+                localStorage.setItem('selectPageSolution','1')
+                localStorage.setItem('selectPageTrain','1')
+                localStorage.setItem('selectPagemActivity','1')
+                window.location.href='/index.html'
+            }else{
+                alert(data.message)
+            }
+            })
+    }
+</script>
+</html>

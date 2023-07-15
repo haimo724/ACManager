@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.TeamMapper">
+
+    <insert id="saveTeam">
+        insert into Team(teamName,teamTime,teamCaptain,teamIntro)
+        values (#{teamName},#{teamTime},#{teamCaptain},#{teamIntro})
+    </insert>
+
+    <select id="queryTeamByTeamCaptain" resultType="team">
+        select *
+        from Team
+where teamCaptain=#{teamCaptain}
+    </select>
+    <!-- 更新队伍信息 -->
+    <update id="updateTeam" parameterType="team">
+        update Team
+        set teamName=#{teamName},
+            teamIntro=#{teamIntro},
+            teamTime=#{teamTime},
+            teamCaptain=#{teamCaptain}
+        where teamId=#{teamId}
+    </update>
+
+    <delete id="deleteByTeamId" parameterType="team">
+        delete from Team
+        where teamId=#{teamId}
+    </delete>
+
+    <select id="queryTeamByID" resultType="team">
+        select *
+        from Team
+        where teamId=#{teamId}
+    </select>
+
+    <select id="queryTeamByName" resultType="team">
+        select *
+        from Team
+        where teamName=#{teamName}
+    </select>
+
+    <select id="queryCount" resultType="long">
+        select count(teamId)
+        from Team
+    </select>
+
+    <select id="queryAll" resultType="team">
+        select *
+        from Team
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(teamId)
+        from Team
+        where teamName like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="team">
+        select *
+        from Team
+        limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="team">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from Team
+        where teamName like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+
+</mapper>

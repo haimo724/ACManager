@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>主页</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/editor/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script src="/editor/xheditor-1.1.14-zh-cn.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="/userList.html">系统用户列表</a></li>
+        <li><a href="/addUser.html">系统用户添加</a></li>
+    </ul>
+    <br />
+<!--    <form class="form-inline" id="searchForm" action="#" method="post">-->
+<!--        <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo }">-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="exampleInputName2">用户名</label>-->
+<!--            <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名">-->
+<!--        </div>-->
+
+<!--        <button type="submit" class="btn btn-primary btn-sm">-->
+<!--            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>-->
+<!--            查询-->
+<!--        </button>-->
+<!--    </form>-->
+    <br />
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>用户名</th>
+            <th>用户学号/工号</th>
+            <th>头像</th>
+            <th>身份</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+<!--            <tr>-->
+<!--                <td></td>-->
+<!--                <td>${user.username}</td>-->
+<!--                <td>123</td>-->
+<!--                <td>${user.pic}</td>-->
+<!--                <td>${user.roleName }</td>-->
+<!--                <td>-->
+<!--                    <a href="/editUser.html">-->
+<!--                        <button class="btn btn-primary btn-xs">-->
+<!--                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>-->
+<!--                            编辑-->
+<!--                        </button>-->
+<!--                    </a>-->
+<!--                    <a onclick="deleteUser()">-->
+<!--                        <button class="btn btn-danger btn-xs">-->
+<!--                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+<!--                            删除-->
+<!--                        </button>-->
+<!--                    </a>-->
+<!--                </td>-->
+<!--            </tr>-->
+
+        </tbody>
+    </table>
+    <br/>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination" style="text-align: center">
+            <li>
+                <a href="#" aria-label="Previous" id="prev">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#" id="1">1</a></li>
+            <li>
+                <a href="#" aria-label="Next" id="next1">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li><a href="#" id="pageCount"></a></li>
+            <li><a href="#" id="currentPage"></a></li>
+        </ul>
+    </nav>
+</div>
+</body>
+<script type="text/javascript">
+    var selectPage = 1
+    $(document).ready(function (){
+        getUsers()
+    })
+    function getUsers(){
+        var selectPage=localStorage['selectPageUsers']
+        $('a').click(function () {
+            if($(this).attr('id')==="prev"){
+                selectPage -= 1
+            }else if ($(this).attr('id')==="next1"){
+                selectPage++
+            }
+            localStorage.removeItem('selectPageUsers')
+            localStorage.setItem('selectPageUsers',selectPage)
+            window.location.href='/userList.html'
+        })
+        $('#tbody').empty()
+        $('#currentPage').html('当前页数：'+selectPage)
+        $.get('/user/page',
+            function(data,status){
+                if(status==='success'){
+                    $("#pageCount").append('总页数：'+data.data.totalPage)
+                }else{
+                    alert('网络连接异常！')
+                }
+            })
+        $.get('/user/all',
+            {
+                'limitStart':selectPage*10-10
+            },
+           function (data,status){
+              if(status==='success'){
+                 /* $("#pageCount").html('总页数：'+data.pageCount)*/
+                  var Count = data.data.length
+                  for(let i=0;i<Count;i++){
+                      var user = data.data[i]
+                      $("#tbody").append('<tr>\n' +
+                          '                <td>'+user.userSysId+'</td>\n' +
+                          '                <td>'+user.userName+'</td>\n' +
+                          '                <td>'+user.userId+'</td>\n' +
+                          '                <td>'+user.userPhoto+'</td>\n' +
+                          '                <td>'+change(user.userStatus)+'</td>\n' +
+                          '                <td>\n' +
+                          '                    <a href="/editUser.html" onclick="editUser2('+user.userName+','+user.userId+','+user.userStatus+')">\n' +
+                          '                        <button class="btn btn-primary btn-xs">\n' +
+                          '                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>\n' +
+                          '                            编辑\n' +
+                          '                        </button>\n' +
+                          '                    </a>\n' +
+                          '                    <a onclick="deleteUser('+user.userId+')">\n' +
+                          '                        <button class="btn btn-danger btn-xs">\n' +
+                          '                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n' +
+                          '                            删除\n' +
+                          '                        </button>\n' +
+                          '                    </a>\n' +
+                          '                </td>\n' +
+                          '            </tr>')
+                  }
+              }else{
+                  alert(data.message)
+              }
+           })
+    }
+
+    function change(i){
+        if(i===0){
+            return('超级管理员')
+        }else if(i===1){
+            return('指导老师')
+        }else if(i===4){
+            return('分队队长')
+        }else if(i===6){
+            return('队员')
+        }else{
+            return('预备队员')
+        }
+    }
+
+    function deleteUser(id){
+        $.post('/user/delete',
+            {
+                'userId':id
+            },
+            function (data,status){
+            if(data.code===200){
+                alert(data.message)
+                window.location.href='/userList.html'
+            }else{
+                alert(data.message)
+            }
+            })
+    }
+    function editUser2(userName,userId,userStatus){
+        alert(12)
+        localStorage.removeItem('cuserName');
+        localStorage.setItem('cuserName',userName);
+        localStorage.removeItem('cuserId');
+        localStorage.setItem('cuserId',userId);
+        localStorage.removeItem('cuserStatus');
+        localStorage.setItem('cuserStatus',userStatus);
+    }
+</script>
+</html>

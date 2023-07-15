@@ -1,0 +1,89 @@
+<link href="/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="first.js"></script>
+<div class="t-line"></div>
+<div class="header">
+    <div class="tools clearfix">
+        <p class="welcome"><img alt="" src="/head3.png" height="70"/></p>
+        <div>
+            <p class="welcome nihao" id="qqqq"></p>
+        </div>
+        <div class="usearea">
+<!--            <c:if test="${flogin!=null }">-->
+<!--                <ol class="breadcrumb qwe">-->
+<!--                    <li><a href="/userInfo.html">个人中心</a></li>-->
+<!--                    <li><a onclick="logout()">安全退出</a></li>-->
+<!--                </ol>-->
+
+<!--            </c:if>-->
+
+<!--            <c:if test="${flogin==null }">-->
+<!--                <ol class="breadcrumb qwe">-->
+<!--                    <li><a href="/mlogin.html">登录</a></li>-->
+<!--                    <li><a href="/register.html">注册</a></li>-->
+<!--                </ol>-->
+<!--            </c:if>-->
+        </div>
+    </div>
+    <div class="nav-bg">
+        <ul class="nav">
+            <li><a class="active1" href="/main.html">首页</a></li>
+            <li><a class="active2" href="/teamDetail.html" onclick="teamsclear()">分队列表</a></li>
+            <li><a class="active3" href="/newsList.html">新闻</a></li>
+            <li><a class="active4" href="/activityList.html">活动</a></li>
+            <li><a class="active5" href="/blog.html">博客</a></li>
+            <li><a class="active6" href="/solution.html">题解</a></li>
+<!--            <li><a class="active7" href="/sendMsg.html">留言</a></li>-->
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var storage = window.localStorage;
+    function teamsclear(){
+        storage.removeItem('team_id');
+    }
+    $(function (){
+        var n = storage['userName'];
+        if(n===undefined){
+            $('.usearea').append("<ol class=\"breadcrumb qwe\">\n" +
+                "                    <li><a href=\"/login.html\">登录</a></li>\n" +
+                "                    <li><a href=\"/register.html\">注册</a></li>\n" +
+                "                </ol>")
+        }else{
+            $('.usearea').append("<ol class=\"breadcrumb qwe\">\n" +
+                "                    <li><a href=\"/userInfo.html\">个人中心</a></li>\n" +
+                "                    <li><a onclick=\"logout()\">安全退出</a></li>\n" +
+                "                </ol>")
+            $('.nav').append("<li><a class=\"active7\" href=\"/sendMsg.html\">留言</a></li>")
+            $('#qqqq').text('你好'+n)
+        }
+    })
+    function logout(){
+        storage.clear()
+        window.location.href='/login.html'
+    }
+    $(function (){
+        var m = window.location.href
+        var patt1=new RegExp("main");
+        var patt2=new RegExp("teamDetail");
+        var patt3=new RegExp("newsList");
+        var patt4=new RegExp("activityList");
+        var patt5=new RegExp("blog");
+        var patt6=new RegExp("solution");
+        var patt7=new RegExp("sendMsg");
+        if(patt1.test(m)){
+            $('.active1').css('background-color','#08bbe1')
+        }else if(patt2.test(m)){
+            $('.active2').css('background-color','#08bbe1')
+        }else if(patt3.test(m)){
+            $('.active3').css('background-color','#08bbe1')
+        }else if(patt4.test(m)){
+            $('.active4').css('background-color','#08bbe1')
+        }else if(patt5.test(m)){
+            $('.active5').css('background-color','#08bbe1')
+        }else if(patt6.test(m)){
+            $('.active6').css('background-color','#08bbe1')
+        }else if(patt7.test(m)){
+            $('.active7').css('background-color','#08bbe1')
+        }
+    })
+</script>

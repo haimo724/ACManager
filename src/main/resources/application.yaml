@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    livereload:
+      port: 35730
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/acmaster?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/html/,classpath:/css/,classpath:/images/,classpath:/js/,classpath:/static/,classpath:/mui/
+
+mybatis:
+  mapper-locations: classpath:*/mapper/*.xml
+  type-aliases-package: org.acmaster.entity

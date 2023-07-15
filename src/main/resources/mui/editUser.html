@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>主页</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/editor/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script src="/editor/xheditor-1.1.14-zh-cn.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <ul class="nav nav-tabs">
+        <li><a href="/userList.html">系统用户列表</a></li>
+        <li class="active"><a href="/addUser.html">系统用户添加</a></li>
+    </ul>
+    <br />
+    <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="${user.id}">
+
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">用户名</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="username" name="userName" placeholder="请输入用户名">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">用户学号/工号</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="userId" name="userId" placeholder="请输入用户学号/工号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">身份</label>
+            <div class="col-sm-5">
+                <select class="form-control" id="role" name="userStatus">
+                    <option selected>请选择身份</option>
+                                        <option value="0">超级管理员</option>
+                                        <option value="1">指导老师</option>
+                                        <option value="4">分队队长</option>
+                                        <option value="6">队员</option>
+                                        <option value="7">预备队员</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="sort" class="col-sm-3 control-label"></label>
+            <div class="col-sm-5">
+                <input type="button" class="btn btn-success btn-sm" value="保存" onclick="save()">
+                <input type="button" class="btn btn-default btn-sm" value="返回" onclick="history.go(-1)">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    /*$(function (){
+        $("#userName").val(localStorage['cuserName'])
+        $("#userId").val(localStorage['cuserId'])
+    })*/
+    function save(){
+        var userName = $("#username").val()
+        var userId = $("#userId").val()
+        var userStatus = $("#role option:selected").val()
+        $.post('/user/updateUserStatus',
+            {
+                'userName':userName,
+                'userId':userId,
+                'userStatus':userStatus
+            },
+            function (data,status){
+                if(data.code===200){
+                    alert(data.message)
+                    window.location.href='/userList.html'
+                }else{
+                    alert(data.message)
+                }
+            })
+    }
+
+   /* $(function () {
+        alert(localStorage['cuserId'])
+        $("#userName").val(localStorage['cuserName'])
+        $("#userId").val(localStorage['cuserId'])
+        if (localStorage['cuserStatus'] == 0) {
+            $("#role").append('<option selected value="0">超级管理员</option>');
+        } else if (localStorage['cuserStatus'] == 1) {
+            $("#role").append('<option selected value="1">指导老师</option>');
+            if (localStorage['userStatus'] == 0) {
+                $("#role").append('<option value="0">超级管理员</option>')
+            }
+        } else if (localStorage['cuserStatus'] == 1) {
+            $("#role").append('<option selected value="4">分队队长</option>');
+        } else if (localStorage['cuserStatus'] == 6) {
+            $("#role").append('<option selected value="6">队员</option>');
+        } else if (localStorage['cuserStatus'] == 7) {
+            $("#role").append('<option selected value="7">预备队员</option>');
+        }
+    })*/
+
+</script>
+</html>

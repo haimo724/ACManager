@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ACM基地管理系统</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon1.ico">
+    <script src="/http_cdn.bootcdn.net_ajax_libs_marked_3.0.8_marked.js"></script>
+</head>
+<body>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+<script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="/editor/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="/editor/xheditor-1.1.14-zh-cn.min.js" type="text/javascript"></script>
+<!--<script src="/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>-->
+
+<div class="include1"></div>
+<div class="zxc">
+    <div class="container">
+        <div class="row">
+            <a href="/applyblog.html" class="glyphicon glyphicon-plus" id="ab" style="font-size: large;color: #8df1fa">写一篇自己的博客</a>
+            <div class="col-xs-offset-0 col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 main" id="blogmain">
+<!--                <div class="panel panel-default about-index-file-panel" style="margin-bottom: 12px">-->
+<!--                    <div style="padding: 10px">-->
+<!--                        <div class="about-index-file-type left2">-->
+<!--                            <a href="#"><span>博客标题</span></a>-->
+<!--                        </div>-->
+<!--                        <hr style="margin: 0 0 10px 0;">-->
+<!--                        <div class="solution2 left2">-->
+<!--                            发布人：xxx-->
+<!--                            <span class="file-field-title pull-right">发布时间：2022-2-12</span>-->
+<!--                        </div>-->
+<!--                        <div class="left2" style="padding-left: 40px">-->
+<!--                            <div class="file-content-field" style="max-height: 758px">-->
+<!--                                <div  class="ui bottom attached tab active martor-preview gh1" data-tab="preview-tab-content" style="text-align: left">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr style="margin: 0 0 10px 0;">-->
+<!--                    <div class="btn-group btn-group-justified">-->
+<!--                        <div class="btn-group" role="group">-->
+<!--                            <a class="btn btn-link a1" style="text-decoration: none" onclick="gooddd(0,1)">-->
+<!--                                <span class="glyphicon glyphicon-thumbs-up q1"></span>-->
+<!--                                &nbsp;-->
+<!--                                <span class="s1">赞</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="btn-group" role="group">-->
+<!--                            <a class="btn btn-link a2" style="text-decoration: none" onclick="baddd()">-->
+<!--                                <span class="glyphicon glyphicon-thumbs-down q2" ></span>-->
+<!--                                &nbsp;-->
+<!--                                <span class="s2">不赞同</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr style="margin: 0 0 10px 0;">-->
+<!--                </div>-->
+<!--                <div class="panel panel-default about-index-file-panel" style="margin-bottom: 12px">-->
+<!--                    <div style="padding: 10px">-->
+<!--                        <div class="about-index-file-type left2">-->
+<!--                            <a href="#"><span>博客标题</span></a>-->
+<!--                        </div>-->
+<!--                        <hr style="margin: 0 0 10px 0;">-->
+<!--                        <div class="solution2 left2">-->
+<!--                            发布人：xxx-->
+<!--                            <span class="file-field-title pull-right">发布时间：2022-2-12</span>-->
+<!--                        </div>-->
+<!--                        <div class="left2" style="padding-left: 40px">-->
+<!--                            <div class="file-content-field" style="max-height: 758px">-->
+<!--                                <div  class="ui bottom attached tab active martor-preview gh1" data-tab="preview-tab-content" style="text-align: left">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr style="margin: 0 0 10px 0;">-->
+<!--                    <div class="btn-group btn-group-justified">-->
+<!--                        <div class="btn-group" role="group">-->
+<!--                            <a class="btn btn-link a1" style="text-decoration: none" onclick="gooddd(1,4)">-->
+<!--                                <span class="glyphicon glyphicon-thumbs-up q1"></span>-->
+<!--                                &nbsp;-->
+<!--                                <span class="s1">赞</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="btn-group" role="group">-->
+<!--                            <a class="btn btn-link a2" style="text-decoration: none" onclick="baddd()">-->
+<!--                                <span class="glyphicon glyphicon-thumbs-down q2" ></span>-->
+<!--                                &nbsp;-->
+<!--                                <span class="s2">不赞同</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr style="margin: 0 0 10px 0;">-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="include2"></div>
+<script type="text/javascript" src="/jquery.min.js"></script>
+<script type="text/javascript">
+    $(".include1").load('top.html');
+    $(".include2").load('footer.html');
+    var s = window.localStorage
+    $(function (){
+        if(s['name']===''){
+            $("#ab").css("display","none")
+        }
+    })
+    $(document).ready(function (){
+        getBlog()
+    })
+    function getBlog(){
+        $.get('/blog/all',
+            function (data,status){
+               if(status==='success'){
+                   var Count = data.data.length;
+                   for(let i=0;i<Count;i++){
+                       var blogs = data.data[i];
+                       $('#blogmain').append('<div class="panel panel-default about-index-file-panel" style="margin-bottom: 12px">\n' +
+                           '                    <div style="padding: 10px">\n' +
+                           '                        <div class="about-index-file-type left2">\n' +
+                           '                            <a href="#"><span>'+blogs.blogTitle+'</span></a>\n' +
+                           '                        </div>\n' +
+                           '                        <hr style="margin: 0 0 10px 0;">\n' +
+                           '                        <div class="solution2 left2">\n' +
+                           '                            发布人：'+blogs.blogAuthorId+'\n' +
+                           '                            <span class="file-field-title pull-right">发布时间：'+blogs.blogTime+'</span>\n' +
+                           '                        </div>\n' +
+                           '                        <div class="left2" style="padding-left: 40px">\n' +
+                           '                            <div class="file-content-field" style="max-height: 758px">\n' +
+                           '                                <div  class="ui bottom attached tab active martor-preview gh1" data-tab="preview-tab-content" style="text-align: left">\n' +
+                           '\n'+
+                           '                                </div>\n' +
+                           '                            </div>\n' +
+                           '                        </div>\n' +
+                           '                    </div>\n' +
+                           '                    <hr style="margin: 0 0 10px 0;">\n' +
+                           '                    <div class="btn-group btn-group-justified">\n' +
+                           '                        <div class="btn-group" role="group">\n' +
+                           '                            <a class="btn btn-link a1" style="text-decoration: none" onclick="gooddd('+i+','+blogs.goodCount+','+blogs.blogId+')">\n' +
+                           '                                <span class="glyphicon glyphicon-thumbs-up q1"></span>\n' +
+                           '                                &nbsp;\n' +
+                           '                                <span class="s1">赞</span>\n' +
+                           '                            </a>\n' +
+                           '                        </div>\n' +
+                           '                        <div class="btn-group" role="group">\n' +
+                           '                            <a class="btn btn-link a2" style="text-decoration: none" onclick="baddd('+i+')">\n' +
+                           '                                <span class="glyphicon glyphicon-thumbs-down q2" ></span>\n' +
+                           '                                &nbsp;\n' +
+                           '                                <span class="s2">不赞同</span>\n' +
+                           '                            </a>\n' +
+                           '                        </div>\n' +
+                           '                    </div>\n' +
+                           '                    <hr style="margin: 0 0 10px 0;">\n' +
+                           '                </div>'
+                       )
+                       if(blogs.blogFormat==='2'){//html格式
+                           $('.gh1').eq(i).html(blogs.blogText)
+                       }else{
+                           $('.gh1').eq(i).html(marked(blogs.blogText))
+                       }
+                   }
+               }else{
+                   alert('网络错误！')
+               }
+            })
+    }
+    var good_bool = 0
+    var bad_bool = 0
+    function gooddd(id,goods,blogId) {
+        if (good_bool === 0) {
+            goods++
+            $('.main').find('.q1').eq(id).removeClass('glyphicon-thumbs-up').addClass('glyphicon-ok-circle')
+            $('.main').find('.s1').eq(id).text(goods)
+        } else {
+            goods -= 1
+            $('.main').find('.q1').eq(id).removeClass('glyphicon-ok-circle').addClass('glyphicon-thumbs-up')
+            $('.main').find('.s1').eq(id).text('赞')
+        }
+        if (good_bool === 0) {
+            good_bool = 1
+        } else {
+            good_bool = 0
+        }
+        $.post('/blog/good',
+            {
+                'goodCount':goods,
+                'blogId':blogId
+            },
+            function (data,status){
+            if(data.code===200){
+                /*alert(data.message)*/
+            }else {
+                alert(data.message)
+            }
+            })
+    }
+    function baddd(id){
+        if (bad_bool === 0) {
+            $('.main').find('.q2').eq(id).removeClass('glyphicon-thumbs-down').addClass('glyphicon-remove-circle')
+            $('.main').find('.s2').eq(id).text('')
+        } else {
+            $('.main').find('.q2').eq(id).removeClass('glyphicon-remove-circle').addClass('glyphicon-thumbs-down')
+            $('.main').find('.s2').eq(id).text('不赞同')
+        }
+        if (bad_bool === 0) {
+            bad_bool = 1
+        } else {
+            bad_bool = 0
+        }
+    }
+</script>
+</body>
+</html>

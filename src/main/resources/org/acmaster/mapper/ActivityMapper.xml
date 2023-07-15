@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.ActivityMapper">
+
+    <select id="queryActivityByID" resultType="activity">
+        select *
+        from Activity
+        where activityId=#{activityId}
+    </select>
+
+    <insert id="addActivity">
+        insert into Activity(activityId,activityTitle,activityContent,activityCharge,activityAuthorId,activityStart,activityEnd,activityCheck)
+        values (#{activityId},#{activityTitle},#{activityContent},#{activityCharge},#{activityAuthorId},#{activityStart},#{activityEnd},#{activityCheck})
+    </insert>
+
+    <update id="updateActivity">
+        update Activity
+set activityTitle=#{activityTitle},
+    activityContent=#{activityContent},
+    activityCharge=#{activityCharge},
+    activityAuthorId=#{activityAuthorId},
+    activityStart=#{activityStart},
+    activityEnd=#{activityEnd},
+    activityCheck=#{activityCheck}
+where activityId=#{activityId}
+    </update>
+
+    <select id="queryActivityByActivityAuthorId" resultType="activity">
+        select *
+        from Activity
+        where activityAuthorId=#{activityAuthorId}
+    </select>
+
+    <select id="queryActivitys"  resultType="activity">
+        SELECT *
+        FROM Activity
+        WHERE activityCheck='1'
+    </select>
+
+    <update id="updateById" parameterType="activity">
+        update Activity
+        set activityCheck=#{activityCheck}
+        where activityId=#{activityId}
+    </update>
+
+    <insert id="deleteActivity" parameterType="activity">
+        delete from Activity where activityid=#{activityId}
+    </insert>
+
+
+    <select id="queryCount" resultType="long">
+        select count(activityId)
+        from Activity
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(activityId)
+        from Activity
+        where activityTitle like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="activity">
+        select *
+        from Activity
+            where activityCheck='1'
+                 limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPage1" parameterType="page" resultType="activity">
+        select *
+        from Activity
+            limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="message">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from Activity
+        where activityTitle like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+
+</mapper>
+

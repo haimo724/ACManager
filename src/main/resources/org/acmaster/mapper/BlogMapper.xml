@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.acmaster.mapper.BlogMapper">
+
+    <select id="queryBlogByID" resultType="blog">
+        select *
+        from Blog
+        where blogId=#{blogId}
+    </select>
+
+    <select id="queryBlogByBlogAuthorId" resultType="blog">
+        select *
+        from Blog
+        where blogAuthorId=#{blogAuthorId}
+    </select>
+    <select id="queryBlogs"  resultType="blog">
+        SELECT *
+        FROM Blog
+        WHERE ischecked='1' AND isdeleted='0'
+    </select>
+
+    <update id="updateGoodCount" parameterType="blog">
+        update Blog
+        set goodCount=#{goodCount}
+        where blogId=#{blogId}
+    </update>
+
+    <update id="updateById" parameterType="blog">
+        update Blog
+        set isChecked=#{isChecked}
+        where blogId=#{blogId}
+    </update>
+
+    <update id="updateBlog" parameterType="blog">
+        update Blog
+        set blogTitle=#{blogTitle},
+            blogAuthorId=#{blogAuthorId},
+            blogText=#{blogText},
+            blogTime=#{blogTime},
+            ischecked=#{isCkecked},
+            isdeleted=#{isDeleted},
+            goodcount=#{goodCount},
+            blogFormat=#{blogFormat}
+            where blogID=#{blogId}
+    </update>
+
+    <insert id="deleteBlog" parameterType="blog">
+        delete from Blog where blogid=#{blogId}
+    </insert>
+
+    <insert id="addBlog">
+        insert into Blog(blogAuthorId,blogTitle,blogText,blogTime,ischecked,isdeleted,goodcount,blogFormat)
+        values (#{blogAuthorId},#{blogTitle},#{blogText},#{blogTime},'0','0','0',#{blogFormat})
+    </insert>
+
+    <select id="queryCount" resultType="long">
+        select count(blogId)
+        from Blog
+    </select>
+
+    <select id="queryCountBySearch" resultType="long" parameterType="String">
+        <bind name="searchValue" value="'%'+_parameter+'%'"/>
+
+        select count(blogId)
+        from Blog
+        where blogTitle like #{searchValue}
+    </select>
+
+    <select id="queryListByPage" parameterType="page" resultType="blog">
+        select *
+        from Blog
+                 limit #{limitStart},#{size}
+    </select>
+
+    <select id="queryListByPageAndSearch" resultType="message">
+        <bind name="searchValue" value="'%'+value+'%'"/>
+
+        select *
+        from Blog
+        where blogTitle like #{searchValue} or
+        limit #{page.limitStart},#{page.size}
+    </select>
+
+</mapper>

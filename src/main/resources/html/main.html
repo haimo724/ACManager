@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ACM基地管理系统</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon1.ico">
+</head>
+<body>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+<script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="/editor/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="/editor/xheditor-1.1.14-zh-cn.min.js" type="text/javascript"></script>
+<div class="include1"></div>
+
+<div class="zxc">
+    <div class="wer">
+        <div class="img-q1">
+            <img src="/blue3.jpg" alt="" style="width: 100%;height:646px">
+        </div>
+        <div class="warp" style="float:left">
+            <div class="hotmsg clearfix">
+                <h2>系统公告：</h2>
+                <p>
+                    系统正在测试中，有bug请反馈。。。
+                </p>
+            </div>
+            <div class="news-moudle clearfix">
+                <div class="news-info mr20">
+                    <div class="title">最新活动</div>
+                    <ul class="latestact">
+
+                    </ul>
+                </div>
+                <div class="news-info">
+                    <div class="title">最新新闻</div>
+                    <ul class="latestnews">
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="show-box">
+                <div class="title">分队列表</div>
+                <div class="box-list" id="Marquee_xxx">
+                    <ul class="img-lists clearfix" id="teams">
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="show-box">
+                <div class="title">推荐活动</div>
+                <div class="box-list" id="Marquee_xx">
+                    <ul class="img-lists clearfix" id="latestact2">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="img-q2">
+            <img src="/blue2.jpg" alt="" style="width: 100%;height:646px">
+        </div>
+    </div>
+</div>
+
+
+<div class="include2"></div>
+<script type="text/javascript" src="/jquery.min.js"></script>
+<script src="/jquery.kxbdmarquee.js"></script>
+<script type="text/javascript">
+    $(".include1").load('top.html');
+    $(".include2").load('footer.html');
+    $(document).ready(function (){
+        /*if(localStorage['userId']==null){
+            window.location.href='/login.html'
+        }*/
+        getActivity()
+        getNews()
+        getTeams()
+    })
+    function getActivity(){
+        $.get('activity/all',
+          function (data,status){
+              if(status==='success'){
+                  var tdf = $('.latestact')
+                  var tdf2 = $('#latestact2')
+                  var Count = data.data.length
+                  for(let i=0;i<Count;i++){
+                      var act = data.data[i]
+                      tdf.append(
+                          '<li><a href="/activityDetail.html" onclick="toAct('+act.activityId+')">' +'<img src="/hot.gif">'+ act.activityTitle +'</a></li>'
+                      )
+                      tdf2.append(
+                          '<li><img src="'+act.activityPhoto + '"<a>'+act.activityTitle+'</a></li>'
+                      )
+                  }
+              }
+          })
+    }
+    function getNews(){
+        $.get('/news/all',
+            function (data,status){
+                if(status==='success'){
+                    var tdf3 = $('.latestnews')
+                    var Count = data.data.length
+                    for(let i=0;i<Count;i++){
+                        var act2 = data.data[i]
+                        tdf3.append(
+                            '<li><a href="/newsDetail.html" onclick="toNews('+act2.newsId+')">' + '<img src="/hot.gif">'+act2.newsTitle +'</a></li>'
+                        )
+                    }
+                }
+            })
+    }
+    function getTeams(){
+        $.get('/teams/all',
+            function (data,status){
+                if(status==='success'){
+                    var tdf4 = $('#teams')
+                    var Count = data.data.length
+                    for(let i=0;i<Count;i++){
+                        var teams = data.data[i]
+                        tdf4.append(
+                            '<li><img src="'+teams.teamPhoto + '"<a>'+teams.teamName+'</a></li>'
+                        )
+                    }
+                }
+            })
+    }
+    function toAct(id){
+        localStorage.removeItem('activityId')
+        localStorage.setItem('activityId',id)
+    }
+    function toNews(id){
+        localStorage.removeItem('newsId')
+        localStorage.setItem('newsId',id)
+    }
+    $(function(){
+        $('#Marquee_x').kxbdMarquee({ 'direction':'left','isEqual':'true','loop':0 });
+        $('#Marquee_xx').kxbdMarquee({ 'direction':'left','isEqual':'true','loop':0 });
+        $('#Marquee_xxx').kxbdMarquee({ 'direction':'left','isEqual':'true','loop':0 });
+    });
+    var changeBox = $(".change-box"),
+        imgBox = $(".img-box"),
+        changeBtn = $(".changebtn"),
+        banBtn = $(".banbtn"),
+        picBox = $('.pic-box li'),
+        picBoxPagenum = $('.pic-box-pagenum span'),
+        speed = 4000;
+    // 定时器
+    var timeout = setInterval(autorun,speed);
+    // banner 滚动逻辑
+    function run(index){
+        imgBox.removeClass('active').eq(index).addClass('active');
+        banBtn.removeClass('active').eq(index).addClass('active');
+        clearInterval(timeout);
+        timeout = setInterval(autorun,speed);
+    }
+    function autorun(){
+        var _indexDiv = changeBox.find('.active').index(),
+            _indexBtn = changeBtn.find('.active').index(),
+            _lenDiv = imgBox.length,
+            _lenBtn = banBtn.length,
+            autoindex = _indexDiv+1;
+        autoindex = autoindex > 2? 0 : autoindex;
+        imgBox.removeClass('active').eq(autoindex).addClass('active');
+        banBtn.removeClass('active').eq(autoindex).addClass('active');
+    }
+    // 点击切换
+    banBtn.each(function(){
+        $(this).on("click",function(){
+            var index = banBtn.index();
+            run(index);
+        });
+    });
+
+    // 新闻区域图文切换
+    picBoxPagenum.each(function(){
+        $(this).on('click',function(){
+            $(this).siblings('span').removeClass('act');
+            $(this).addClass('act');
+            var index = $(this).index();
+            $(this).parents('.news-pic').find('.pic-box li').removeClass('act');
+            $(this).parents('.news-pic').find('.pic-box li').eq(index).addClass('act');
+        });
+    });
+
+</script>
+</body>
+</html>
